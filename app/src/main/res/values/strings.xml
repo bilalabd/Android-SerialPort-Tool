@@ -1,12 +1,13 @@
 <resources>
-    <string name="app_name">串口调试助手</string>
-    <string name="select_serial_port">串口设备:</string>
-    <string name="select_baud_rate">波特率</string>
-    <string name="open_serial_port">打开串口</string>
-    <string name="close_serial_port">关闭串口</string>
-    <string name="no_serial_device">找不到串口设备</string>
-    <string name="send_data">发送命令</string>
-    <string name="input_data">输入命令</string>
-    <string name="load_cmd_list">加载命令列表</string>
-  
+    <string name="app_name">SmartCartScale</string>
+    <string name="select_serial_port">Select Port:</string>
+    <string name="select_baud_rate">Select baudrate</string>
+    <string name="open_serial_port">Open port</string>
+    <string name="close_serial_port">Close port</string>
+    <string name="no_serial_device">No serial device</string>
+    <string name="send_data">Send Data</string>
+    <string name="input_data">Input Data</string>
+    <string name="load_cmd_list">Load Cmd List</string>
+    <string name="saving">Saving...</string>
+
 </resources>

@@ -3,11 +3,13 @@ package com.licheedev.serialtool.comn;
 import android.os.SystemClock;
 import com.licheedev.hwutils.ByteUtil;
 import com.licheedev.myutils.LogPlus;
+import com.licheedev.serialtool.activity.IScaleReadCallback;
 import com.licheedev.serialtool.comn.message.LogManager;
 import com.licheedev.serialtool.comn.message.RecvMessage;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Scanner;
 
 /**
  * 读串口线程
@@ -17,6 +19,8 @@ public class SerialReadThread extends Thread {
     private static final String TAG = "SerialReadThread";
 
     private BufferedInputStream mInputStream;
+
+    public IScaleReadCallback mScaleReadCallback;
 
     public SerialReadThread(InputStream is) {
         mInputStream = new BufferedInputStream(is);
@@ -65,7 +69,26 @@ public class SerialReadThread extends Thread {
     private void onDataReceive(byte[] received, int size) {
         // TODO: 2018/3/22 解决粘包、分包等
         String hexStr = ByteUtil.bytes2HexStr(received, 0, size);
-        LogManager.instance().post(new RecvMessage(hexStr));
+        String t = hexToString(hexStr);
+        //LogManager.instance().post(new RecvMessage(t));
+
+        if(mScaleReadCallback != null)
+            mScaleReadCallback.onScaleReadData(t);
+    }
+
+
+
+    private String hexToString(String h) {
+
+
+        String result = new String();
+        char[] charArray = h.toCharArray();
+        for(int i = 0; i < charArray.length; i=i+2) {
+            String st = ""+charArray[i]+""+charArray[i+1];
+            char ch = (char)Integer.parseInt(st, 16);
+            result = result + ch;
+        }
+        return result;
     }
 
     /**

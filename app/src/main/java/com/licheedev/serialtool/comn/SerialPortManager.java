@@ -4,6 +4,7 @@ import android.os.HandlerThread;
 import android.serialport.SerialPort;
 import com.licheedev.hwutils.ByteUtil;
 import com.licheedev.myutils.LogPlus;
+import com.licheedev.serialtool.activity.IScaleReadCallback;
 import com.licheedev.serialtool.comn.message.LogManager;
 import com.licheedev.serialtool.comn.message.SendMessage;
 import io.reactivex.Observable;
@@ -28,9 +29,9 @@ public class SerialPortManager {
     private OutputStream mOutputStream;
     private HandlerThread mWriteThread;
     private Scheduler mSendScheduler;
+    private IScaleReadCallback mScaleReadCallback;
 
     private static class InstanceHolder {
-
         public static SerialPortManager sManager = new SerialPortManager();
     }
 
@@ -41,6 +42,10 @@ public class SerialPortManager {
     private SerialPort mSerialPort;
 
     private SerialPortManager() {
+    }
+
+    public void setScaleReadCallback(IScaleReadCallback scaleReadCallback) {
+        this.mScaleReadCallback = scaleReadCallback;
     }
 
     /**
@@ -71,6 +76,7 @@ public class SerialPortManager {
             mSerialPort = new SerialPort(device, baurate);
 
             mReadThread = new SerialReadThread(mSerialPort.getInputStream());
+            mReadThread.mScaleReadCallback = mScaleReadCallback;
             mReadThread.start();
 
             mOutputStream = mSerialPort.getOutputStream();
